@@ -40,7 +40,6 @@ def index_search(files, index, terms):
     for term in terms:
 
         if term not in index: # Edge case
-            # print("!!!!!!")
             return []
 
         # Turn the IDs into file names
@@ -50,46 +49,9 @@ def index_search(files, index, terms):
             # Get back the file names by ID, the index of the files (they are ordered in the list)
             lst_fnames_of_the_term.append(files[ID])
 
-            # for idx,fname in enumerate(files): # Iterate through all the file names
-            #     # Get back the file names by ID, the index of the files (they are ordered in the list)
-            #     if ID == idx:
-            #         lst_fnames_of_the_term.append(fname)
-
         set_file = set_file.intersection(set(lst_fnames_of_the_term)) # The set will getting smaller under each loop
 
-    # return lst_file_names_result
     return list(set_file)
-
-    # all_in = True
-    # lst_qualified = []
-    #
-    # for idx,file in enumerate(files):
-    #
-    #     # print(idx, f)
-    #     # s = get_text(f) # Use the existing function words()
-    #     # for term in terms:
-    #     #     if term not in s: # Check if all the terms are contained in the file
-    #     #         all_in = False
-    #     # if all_in == True: # Then this file is fully-qualified
-    #     #     lst_qualified.append(file)
-    #     #     print("!!!!!!")
-    #     # print(idx, f)
-    #
-    #     # with open(file) as f:
-    #     #     lst = f.readlines()
-    #     #     for line in lst:
-    #     #         for term in terms:
-    #     #             if term not in : # Check if all the terms are contained in the file
-    #     #                 all_in = False
-    #     #         if all_in == True: # Then this file is fully-qualified
-    #     #             lst_qualified.append(file)
-    #     #             print("!!!!!!")
-    #
-    #     if set(terms) == set(words(get_text(file))).intersection(set(terms)):
-    #         lst_qualified.append(file)
-
-
-
 
 if __name__ == '__main__':
     dct = create_index(['/Users/seanlin/data/slate/51/ArticleIP_38825.txt',

@@ -18,8 +18,7 @@ def hashcode(o):
     elif isinstance(o, str):
         h = 0
         for c in o:
-            h += h * 31 + ord(c)
-        # print(h)
+            h = h * 31 + ord(c)
         return h
     else:
         return None
@@ -62,6 +61,7 @@ def htable_put(table, key, value):
     #     table[bucket_index].remove((key, value))
     # table[bucket_index].append((key, value))
     bucket_index = bucket_indexof(table, key)
+    print("key=", key, 'index=', bucket_index)
     for idx,asso in enumerate(table[bucket_index]):
         if asso[0] == key:
             asso_remove = table[bucket_index][idx]

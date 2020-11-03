@@ -28,15 +28,15 @@ def myhtable_create_index(files):
 
     NBUCKETS = 4011
     table = htable(NBUCKETS) # Create an empty dict
-    for file in files: # Iterate through every given file names
-        s_content = get_text(file) # Turn each file name into a string content
+    for idx,fname in enumerate(files): # Iterate through every given file names
+        s_content = get_text(fname) # Turn each file name into a string content
         lst_word = words(s_content) # Turn the string content into a list of normalized words
         for word in lst_word: # For each normalized words, update the dict by word-file as key-value pairs
             set_IDs = htable_get(table, word)
             if set_IDs == None:
-                htable_put(table, word, {file}) # index or file name
+                htable_put(table, word, {idx}) # index or file name
             else:
-                set_IDs.add(file)
+                set_IDs.add(idx)
     return table
 
 def myhtable_index_search(files, index, terms):
@@ -49,13 +49,30 @@ def myhtable_index_search(files, index, terms):
     #     set_file = set_file.intersection(index[term]) # The set will getting smaller under each loop
     # return list(set_file)
 
+
+    # set_file = set(files)
+    # for term in terms:
+    #     if htable_get(index, term) == None: # Edge case
+    #         break
+    #     else:
+    #         set_file = set_file.intersection(htable_get(index, term)) # The set will getting smaller under each loop
+    # return list(set_file)
+
     # the argument index is the self-defined table
-    set_file = set(files)
+    set_file = set(files) # files is a list of file names, not file IDs
     for term in terms:
         if htable_get(index, term) == None: # Edge case
-            break
-        else:
-            set_file = set_file.intersection(htable_get(index, term)) # The set will getting smaller under each loop
+            return []
+        # Turn the IDs into file names
+        set_IDs = htable_get(index, term)
+        lst_fnames_of_the_term = []
+        for ID in set_IDs:
+            print(ID)
+            # Get back the file names by ID, the index of the files (they are ordered in the list)
+            lst_fnames_of_the_term.append(files[ID])
+
+        set_file = set_file.intersection(set(lst_fnames_of_the_term)) # The set will getting smaller under each loop
+
     return list(set_file)
 
 
